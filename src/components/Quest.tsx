@@ -1,3 +1,5 @@
+import { QuerySnapshot } from "@google-cloud/firestore";
+
 interface IQuest {
   num: number;
   txt: string;
