@@ -1,7 +1,12 @@
 import { auth, db } from "@/apis/firebase";
 import Quest from "@/components/Quest";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
+import {
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+} from "firebase/firestore";
 import { useEffect, useState } from "react";
 
 interface IUser {
