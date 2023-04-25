@@ -1,0 +1,31 @@
+{
+  "theme_color": "#D9BD4E",
+  "background_color": "#5A74A5",
+  "display": "standalone",
+  "scope": "/",
+  "start_url": "/",
+  "name": "\ud558\uc2a4\uc54c\ub78c - \ud018\uc2a4\ud2b8\ub97c \ud6a8\uc728\uc801\uc73c\ub85c!",
+  "short_name": "\ud558\uc2a4\uc54c\ub78c",
+  "icons": [
+    {
+      "src": "images/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/icon-256x256.png",
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png"
+    },
+    {
+      "src": "images/icons/icon-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

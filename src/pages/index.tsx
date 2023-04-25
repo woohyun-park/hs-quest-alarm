@@ -2,13 +2,10 @@ import { auth, db } from "@/apis/firebase";
 import Quest from "@/components/Quest";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
 import {
-  collection,
   doc,
   getDoc,
-  getDocs,
   setDoc,
   updateDoc,
-  writeBatch,
 } from "firebase/firestore";
 import { useEffect, useState } from "react";
 
@@ -100,23 +97,6 @@ export default function Home() {
             num={quests.weekly}
             set={(num) => set("weekly", num)}
           />
-          <button
-            onClick={async () => {
-              const batch = writeBatch(db);
-              const querySnapshot = await getDocs(collection(db, "quests"));
-              querySnapshot.forEach((doc: any) => {
-                // const ref = doc.ref.collection("subcollection").doc("document");
-                const currentDaily = doc.data().daily;
-                const currentWeekly = doc.data().weekly;
-                const daily = currentDaily + 1 > 3 ? 3 : currentDaily + 1;
-                const weekly = currentWeekly + 1 > 3 ? 3 : currentWeekly + 1;
-                batch.update(doc.ref, { daily, weekly });
-              });
-              await batch.commit();
-            }}
-          >
-            테스트
-          </button>
         </div>
       )}
     </>
