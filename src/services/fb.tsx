@@ -1,5 +1,3 @@
-// firebase 연결을 설정하는 파일
-
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore";
 import { getAuth } from "firebase/auth";
