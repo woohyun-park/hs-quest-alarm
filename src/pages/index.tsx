@@ -1,70 +1,12 @@
-import { auth, db } from "@/apis/firebase";
-import Quest from "@/components/Quest";
-import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
-import {
-  doc,
-  getDoc,
-  setDoc,
-  updateDoc,
-} from "firebase/firestore";
-import { useEffect, useState } from "react";
-
-interface IUser {
-  uid: string;
-  isLoggedIn: boolean;
-}
-
-interface IQuest {
-  daily: number;
-  weekly: number;
-}
+import { Quest } from "@/components";
+import { useAuth, useQuest } from "@/hooks";
+import { useContext } from "react";
+import { GlobalContext } from "./_app";
 
 export default function Home() {
-  const [user, setUser] = useState<IUser>({ uid: "", isLoggedIn: false });
-  const provider = new GoogleAuthProvider();
-  const [quests, setQuests] = useState<IQuest>({
-    daily: 0,
-    weekly: 0,
-  });
-
-  function set(type: "daily" | "weekly", num: number) {
-    const docRef = doc(db, "quests", user.uid);
-    updateDoc(docRef, {
-      [type]: num,
-    });
-    setQuests({ ...quests, [type]: num });
-  }
-
-  function handleLogin() {
-    signInWithPopup(auth, provider)
-      .then(async (res) => {
-        const uid = res.user.uid;
-        setUser({ uid, isLoggedIn: true });
-      })
-      .catch((e) => {
-        console.log(e.message);
-      });
-  }
-
-  function handleLogout() {
-    signOut(auth);
-  }
-
-  useEffect(() => {
-    auth.onAuthStateChanged(async (authState) => {
-      if (authState) {
-        const uid = authState.uid;
-        const docRef = doc(db, "quests", uid);
-        const docSnap = await getDoc(docRef);
-        const data = docSnap.data();
-        if (!data) await setDoc(docRef, { daily: 0, weekly: 0 });
-        else setQuests({ daily: data.daily, weekly: data.weekly });
-        setUser({ uid: uid, isLoggedIn: true });
-      } else {
-        setUser({ uid: "", isLoggedIn: false });
-      }
-    });
-  }, []);
+  const { user, quest } = useContext(GlobalContext);
+  const { handleLogin, handleLogout } = useAuth();
+  const { updateQuest } = useQuest();
 
   return (
     <>
@@ -89,13 +31,13 @@ export default function Home() {
           </div>
           <Quest
             txt="일일 퀘스트"
-            num={quests.daily}
-            set={(num) => set("daily", num)}
+            num={quest.daily}
+            set={(num) => updateQuest("daily", num)}
           />
           <Quest
             txt="주간 퀘스트"
-            num={quests.weekly}
-            set={(num) => set("weekly", num)}
+            num={quest.weekly}
+            set={(num) => updateQuest("weekly", num)}
           />
         </div>
       )}
